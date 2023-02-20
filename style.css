@@ -1,0 +1,67 @@
+/* Center the form on the page */
+body {
+    background-color: #f1f1f1; /* Set the background color for the page */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  form {
+    background-color: rgba(255, 255, 255, 0.9); /* Set a white and slightly transparent background for the form */
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3); /* Add a shadow to the form */
+    max-width: 400px; /* Limit the form width */
+    width: 100%;
+  }
+  
+  /* Style the form fields */
+  label,
+  input[type="password"],
+  input[type="text"] {
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    display: block;
+  }
+  
+  label {
+    color: #333;
+  }
+  
+  input[type="password"],
+  input[type="text"] {
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #333;
+    outline: none;
+    width: 100%; /* Make the width of the input field full */
+  }
+  
+  input[type="password"]:focus,
+  input[type="text"]:focus {
+    border-color: #007bff;
+  }
+  
+  /* Style the submit button */
+  button[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    width: 100%;
+    margin-top: 10px;
+  }
+  
+  button[type="submit"]:hover {
+    background-color: #0062cc;
+  }
+  
