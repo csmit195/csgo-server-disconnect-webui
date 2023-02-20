@@ -1,67 +1,78 @@
-/* Center the form on the page */
+/* Body */
 body {
-    background-color: #f1f1f1; /* Set the background color for the page */
+    font-family: 'Roboto', sans-serif;
+    background-color: #f1f1f1;
+    margin: 0;
+}
+
+/* Page container */
+#page-container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
-  }
-  
-  form {
-    background-color: rgba(255, 255, 255, 0.9); /* Set a white and slightly transparent background for the form */
+    padding-right: 20px;
+}
+
+/* Page title */
+#page-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Page message */
+#page-message {
+    font-size: 1.2rem;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+/* Form */
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    background-color: rgba(255, 255, 255, 0.9);
     padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3); /* Add a shadow to the form */
-    max-width: 400px; /* Limit the form width */
-    width: 100%;
-  }
-  
-  /* Style the form fields */
-  label,
-  input[type="password"],
-  input[type="text"] {
-    margin-bottom: 10px;
-    font-size: 18px;
-    font-weight: bold;
-    display: block;
-  }
-  
-  label {
-    color: #333;
-  }
-  
-  input[type="password"],
-  input[type="text"] {
+    border-radius: 10px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3);
+    width: 380px
+}
+
+/* Input fields */
+label {
+    font-size: 1rem;
+    margin-bottom: 0px ;
+}
+
+input[type="password"],
+input[type="text"] {
+    border: 1px solid #CCC;
+    font-size: 1rem;
     padding: 10px;
-    border: 2px solid #ddd;
     border-radius: 5px;
-    font-size: 16px;
-    color: #333;
-    outline: none;
-    width: 100%; /* Make the width of the input field full */
-  }
-  
-  input[type="password"]:focus,
-  input[type="text"]:focus {
-    border-color: #007bff;
-  }
-  
-  /* Style the submit button */
-  button[type="submit"] {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.2s ease-in-out;
+    margin-bottom: px;
     width: 100%;
-    margin-top: 10px;
-  }
-  
-  button[type="submit"]:hover {
-    background-color: #0062cc;
-  }
-  
+    box-sizing: border-box;
+}
+
+/* Submit button */
+button[type="submit"] {
+    font-size: 1rem;
+    padding: 10px 20px;
+    border-radius: 5px;
+    width: 100%;
+    border: none;
+    background-color: #6C63FF;
+    color: #FFF;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+button[type="submit"]:hover {
+    background-color: #8C86FF;
+}
