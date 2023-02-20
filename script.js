@@ -15,7 +15,7 @@ form.addEventListener('submit', async (event) => {
     const steamIdField = document.getElementById('steamid-field');
     const apiToken = apiTokenField.value;
     const steamId = steamIdField.value;
-    const url = `https://api.counter-strike.me/disconnect?steamid=${steamId}&key=${apiToken}`;
+    const url = `https://cors-anywhere.herokuapp.com/https://api.counter-strike.me/disconnect?steamid=${steamId}&key=${apiToken}`;
     const response = await fetch(url);
     const jsonResponse = await response.json();
     if (jsonResponse.error) {
