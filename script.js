@@ -1,12 +1,15 @@
-// Store API token in local storage and fill in API token field if it exists
-const apiTokenField = document.getElementById('api-token-field');
-const savedApiToken = localStorage.getItem('apiToken');
-if (savedApiToken) {
-    apiTokenField.value = savedApiToken;
+async function Initiate(){
+    const apiTokenField = document.getElementById('api-token-field');
+    const savedApiToken = localStorage.getItem('apiToken');
+    if (savedApiToken) {
+        apiTokenField.value = savedApiToken;
+    }
+    apiTokenField.addEventListener('input', () => {
+        localStorage.setItem('apiToken', apiTokenField.value);
+    });
+
+    
 }
-apiTokenField.addEventListener('input', () => {
-    localStorage.setItem('apiToken', apiTokenField.value);
-});
 
 function validate(){
     var apiToken = document.getElementById('api-token-field').value;
@@ -30,6 +33,15 @@ function validate(){
     return true;
 }
 
+async function Status() {
+    const url = 'https://api.counter-strike.me/'
+
+    const response = await fetch(url);
+    const jsonResponse = await response.json();
+
+    return jsonResponse.state.Idle > 0 || jsonResponse.state.Busy > 0;
+}
+
 // Handle form submission
 const form = document.getElementById('disconnect-form');
 form.addEventListener('submit', async (event) => {
@@ -51,9 +63,6 @@ form.addEventListener('submit', async (event) => {
     const response = await fetch(url);
     const jsonResponse = await response.json();
 
-    submitButton.disabled = false;
-    submitButton.classList.remove('disabled');
-
     // if response 429, then the user has been rate limited, tell them to wait 1 minute
     if (response.status === 429) {
         alert('You have been rate limited. Please wait 10s-1m before trying again.');
@@ -63,6 +72,21 @@ form.addEventListener('submit', async (event) => {
     if (jsonResponse.success) {
         alert(`Success! Disconnected from server with ID ${jsonResponse.server}`);
     } else {
+        if ( jsonResponse.error == 'No SDR ticket. Try again after 10 seconds' ) {
+            setTimeout(function() {
+                submitButton.disabled = true;
+                submitButton.classList.remove('disabled');
+            }, 10000);
+            
+            alert('Failed to find SDR ticket. Please try again in 10 seconds.');
+            return;
+        }
+
         alert(`Error: ${jsonResponse.error}`);
     }
+
+    submitButton.disabled = false;
+    submitButton.classList.remove('disabled');
 });
+
+Initiate();
