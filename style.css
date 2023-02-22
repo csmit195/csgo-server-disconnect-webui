@@ -76,3 +76,12 @@ button[type="submit"] {
 button[type="submit"]:hover {
     background-color: #8C86FF;
 }
+
+button.disabled {
+    background-color: #999;
+    cursor: no-drop
+}
+
+button.disabled:hover {
+    background-color: #bbb;
+}
