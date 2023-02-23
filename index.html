@@ -5,7 +5,13 @@
     <meta charset="UTF-8">
     <title>Disconnect from Counter-Strike Server</title>
 
-    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400&display=swap" rel="stylesheet">
+    
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -15,7 +21,15 @@
         <p id="page-message">Block XP, Block Rank Changes, and leave MM Game within 7 minutes.</p>
 
         <form id="disconnect-form">
-            <div id="status">Status: <span class="pending">Checking...</span></div>
+            <div id="status">
+                <aside>
+                    Status: <span class="pending">Checking...</span>
+                </aside>
+                <nav>
+                    <img src="images/user-x.svg" title="Clear Blacklist">
+                    <img src="images/shield-off.svg" title="Clear Whitelist">
+                </nav>
+            </div>
 
             <label for="api-token-field">API Token:</label>
             <input type="password" id="api-token-field" name="api-token">
