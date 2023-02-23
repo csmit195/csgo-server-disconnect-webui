@@ -85,20 +85,48 @@ input[type="text"] {
 }
 
 /* Submit button */
-button[type="submit"] {
+button.formbtn {
     font-size: 1rem;
     padding: 10px 20px;
     border-radius: 5px;
-    width: 100%;
     border: none;
     background-color: #6C63FF;
     color: #FFF;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
+    width: 100%;
+    height: 38px;
 }
 
-button[type="submit"]:hover {
+button.formbtn:hover {
     background-color: #8C86FF;
+}
+
+.btns {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+    width: 100%;
+}
+
+button#btn_break_server {
+    
+}
+
+#btn_add_blacklist {
+    background-image: url('images/shield.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 20px;
+    width: 30px;
+}
+
+#btn_add_whitelist {
+    background-image: url('images/user-plus.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 20px;
+    width: 30px;
 }
 
 button.disabled {
@@ -145,3 +173,4 @@ footer {
     width: 100%;
     padding-top: 10px;
 }
+

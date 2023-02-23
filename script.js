@@ -1,15 +1,25 @@
+const base_url = 'http://api.counter-strike.me:8080';
+
+let blacklist = [];
+let whitelist = [];
+
+alertify.defaults.movable = false;
+alertify.defaults.modal = false;
+
+const submitButton = document.querySelector('#btn_break_server');
+const AddWhitelist = document.querySelector('#btn_add_whitelist');
+const AddBlacklist = document.querySelector('#btn_add_blacklist');
+
+const apiTokenField = document.getElementById('api-token-field');
+const savedApiToken = localStorage.getItem('apiToken');
+if (savedApiToken) {
+    apiTokenField.value = savedApiToken;
+}
+apiTokenField.addEventListener('input', () => {
+    localStorage.setItem('apiToken', apiTokenField.value);
+});
+
 async function Initiate(){
-    const submitButton = document.querySelector('#disconnect-form > button');
-
-    const apiTokenField = document.getElementById('api-token-field');
-    const savedApiToken = localStorage.getItem('apiToken');
-    if (savedApiToken) {
-        apiTokenField.value = savedApiToken;
-    }
-    apiTokenField.addEventListener('input', () => {
-        localStorage.setItem('apiToken', apiTokenField.value);
-    });
-
     const IsOnline = await Status();
 
     const status = document.querySelector('#status span');
@@ -19,9 +29,99 @@ async function Initiate(){
     status.classList.add(IsOnline ? 'online' : 'offline');
 
     if (IsOnline){
-        submitButton.disabled = false;
-        submitButton.classList.remove('disabled');
+        ToggleButtons(false);
     }
+
+    // Grab blacklist
+    const response = await fetch(`${base_url}/blacklist?key=${apiTokenField.value}`);
+    const jsonResponse = await response.json();
+    
+    if ( jsonResponse.success ) {
+        blacklist = jsonResponse.blacklist;
+    }
+
+    // grab whitelist
+    const response2 = await fetch(`${base_url}/whitelist?key=${apiTokenField.value}`);
+    const jsonResponse2 = await response2.json();
+
+    if ( jsonResponse2.success ) {
+        whitelist = jsonResponse2.whitelist;
+    }
+
+    const ClearWhitelist = document.querySelector('#btn_clear_whitelist');
+    const ClearBlacklist = document.querySelector('#btn_clear_blacklist');
+    
+    ClearWhitelist.addEventListener('click', async (event) => {
+        alertify.confirm('Are you sure you want to clear the whitelist?', async function () {
+            // send DELETE method http request to base_url + /whitelist?key=apiToken
+            const steamid = whitelist[0];
+
+            const response = await fetch(`${base_url}/whitelist?key=${apiTokenField.value}&steamid=${steamid}`, {
+                method: 'DELETE'
+            });
+            const jsonResponse = await response.json();
+
+            console.log(jsonResponse);
+
+            alertify.success('Whitelist cleared.');
+        }, function () {
+            
+        });
+    });
+
+    ClearBlacklist.addEventListener('click', async (event) => {
+        alertify.confirm('Are you sure you want to clear the blacklist?', async function () {
+            // generate steamids=steamid1&steamids=steamid2&steamids=steamid3
+            const steamid_str_array = blacklist.map(steamid => `steamids=${steamid}`);
+            const steamid_str = steamid_str_array.join('&');
+
+            const response = await fetch(`${base_url}/blacklist?key=${apiTokenField.value}&${steamid_str}`, {
+                method: 'DELETE',
+            });
+            const jsonResponse = await response.json();
+
+            console.log(jsonResponse);
+
+            alertify.success('Blacklist cleared.');
+        }, function () {
+            
+        });
+    });
+
+    AddWhitelist.addEventListener('click', async (event) => {
+        const steamid_str_array = whitelist.map(steamid => `steamids=${steamid}`);
+        const steamid_str = steamid_str_array.join('&');
+
+        const response = await fetch(`${base_url}/whitelist?key=${apiTokenField.value}&${steamid_str}`, {
+            method: 'PUT'
+        });
+        const jsonResponse = await response.json();
+
+        console.log(jsonResponse);
+
+        if (jsonResponse.success) {
+            alertify.success('Whitelist added.');
+        } else {
+            alertify.error(`Error: ${jsonResponse.error}`);
+        }
+    });
+
+    AddBlacklist.addEventListener('click', async (event) => {
+        const steamid = document.getElementById('steamid-field').value;
+
+        const response = await fetch(`${base_url}/blacklist?key=${apiTokenField.value}&steamids=${steamid}`, {
+            method: 'PUT'
+        });
+        const jsonResponse = await response.json();
+
+        console.log(jsonResponse);
+
+        if (jsonResponse.success) {
+            alertify.success('Blacklist added.');
+        } else {
+            alertify.error(`Error: ${jsonResponse.error}`);
+        }
+    });
 }
 
 function validate(){
@@ -47,12 +147,21 @@ function validate(){
 }
 
 async function Status() {
-    const url = 'https://api.counter-strike.me/'
-
-    const response = await fetch(url);
+    const response = await fetch(base_url);
     const jsonResponse = await response.json();
 
     return jsonResponse.state.Idle > 0 || jsonResponse.state.Busy > 0;
+}
+
+function ToggleButtons(state) {
+    submitButton.disabled = state;
+    submitButton.classList.toggle('disabled', state);
+
+    AddWhitelist.disabled = state;
+    AddWhitelist.classList.toggle('disabled', state);
+
+    AddBlacklist.disabled = state;
+    AddBlacklist.classList.toggle('disabled', state);
 }
 
 // Handle form submission
@@ -68,13 +177,11 @@ form.addEventListener('submit', async (event) => {
     const apiToken = apiTokenField.value;
     const steamId = steamIdField.value;
 
-    const submitButton = document.querySelector('#disconnect-form > button');
-    submitButton.disabled = true;
-    submitButton.classList.add('disabled');
+    ToggleButtons(true);
 
     alertify.message('Attempting...');
 
-    const url = `https://api.counter-strike.me/disconnect?steamid=${steamId}&key=${apiToken}`;
+    const url = `${base_url}/disconnect?steamid=${steamId}&key=${apiToken}`;
     const response = await fetch(url);
     const jsonResponse = await response.json();
 
@@ -89,8 +196,7 @@ form.addEventListener('submit', async (event) => {
     } else {
         if ( jsonResponse.error == 'No SDR ticket. Try again after 10 seconds' ) {
             setTimeout(function() {
-                submitButton.disabled = true;
-                submitButton.classList.remove('disabled');
+                ToggleButtons(false);
             }, 10000);
             
             alertify.warning('Failed to find SDR ticket. Please try again in 10 seconds.');
@@ -100,8 +206,7 @@ form.addEventListener('submit', async (event) => {
         alertify.error(`Error: ${jsonResponse.error}`);
     }
 
-    submitButton.disabled = false;
-    submitButton.classList.remove('disabled');
+    ToggleButtons(false);
 });
 
 Initiate();

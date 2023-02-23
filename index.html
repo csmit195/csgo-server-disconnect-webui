@@ -30,8 +30,8 @@
                     Status: <span class="pending">Checking...</span>
                 </aside>
                 <nav>
-                    <img src="images/user-x.svg" title="Clear Blacklist">
-                    <img src="images/shield-off.svg" title="Clear Whitelist">
+                    <img id="btn_clear_blacklist" src="images/user-x.svg" title="Clear Blacklist">
+                    <img id="btn_clear_whitelist" src="images/shield-off.svg" title="Clear Whitelist">
                 </nav>
             </div>
 
@@ -41,8 +41,11 @@
             <label for="steamid-field">Steam ID:</label>
             <input type="text" id="steamid-field" name="steamid" placeholder="76500000000000000">
             <br>
-            <button class="disabled" disabled="true" type="submit">Submit</button>
-
+            <div class="btns">
+                <button title="" class="disabled formbtn" disabled="true" type="submit" id="btn_break_server">Break Server!</button>
+                <button title="Add to blacklist" class="disabled formbtn" disabled="true" type="button" id="btn_add_blacklist"></button>
+                <button title="Add to whitelist" class="disabled formbtn" disabled="true" type="button" id="btn_add_whitelist"></button>
+            </div>
             <footer>
                 Contact csmit195#4729 for more access.
             </footer>
