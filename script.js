@@ -29,17 +29,17 @@ function validate(){
     var steamId = document.getElementById('steamid-field').value;
     
     if (apiToken == "" || steamId == ""){
-        alert("Please fill in all fields.");
+        alertify.error('Please fill in all fields.');
         return false;
     }
 
     if ( apiToken.length != 29 ) {
-        alert("API Token is invalid.");
+        alertify.error("API Token is invalid.");
         return false;
     }
 
     if ( steamId.length != 17 ) {
-        alert("SteamID is invalid.");
+        alertify.error("SteamID is invalid.");
         return false;
     }
 
@@ -72,18 +72,20 @@ form.addEventListener('submit', async (event) => {
     submitButton.disabled = true;
     submitButton.classList.add('disabled');
 
+    alertify.message('Attempting...');
+
     const url = `https://api.counter-strike.me/disconnect?steamid=${steamId}&key=${apiToken}`;
     const response = await fetch(url);
     const jsonResponse = await response.json();
 
     // if response 429, then the user has been rate limited, tell them to wait 1 minute
     if (response.status === 429) {
-        alert('You have been rate limited. Please wait 10s-1m before trying again.');
+        alertify.error('You have been rate limited. Please wait 1m before trying again.');
         return;
     }
 
     if (jsonResponse.success) {
-        alert(`Success! Disconnected from server with ID ${jsonResponse.server}`);
+        alertify.success(`Success! Disconnected from server with ID ${jsonResponse.server}`);
     } else {
         if ( jsonResponse.error == 'No SDR ticket. Try again after 10 seconds' ) {
             setTimeout(function() {
@@ -91,11 +93,11 @@ form.addEventListener('submit', async (event) => {
                 submitButton.classList.remove('disabled');
             }, 10000);
             
-            alert('Failed to find SDR ticket. Please try again in 10 seconds.');
+            alertify.warning('Failed to find SDR ticket. Please try again in 10 seconds.');
             return;
         }
 
-        alert(`Error: ${jsonResponse.error}`);
+        alertify.error(`Error: ${jsonResponse.error}`);
     }
 
     submitButton.disabled = false;
