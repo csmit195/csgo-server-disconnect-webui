@@ -1,4 +1,6 @@
 async function Initiate(){
+    const submitButton = document.querySelector('#disconnect-form > button');
+
     const apiTokenField = document.getElementById('api-token-field');
     const savedApiToken = localStorage.getItem('apiToken');
     if (savedApiToken) {
@@ -8,7 +10,16 @@ async function Initiate(){
         localStorage.setItem('apiToken', apiTokenField.value);
     });
 
-    
+    const IsOnline = await Status();
+
+    const status = document.querySelector('#status span');
+    status.innerText = IsOnline ? 'Online' : 'Offline';
+    status.classList.add(IsOnline ? 'online' : 'offline');
+
+    if (IsOnline){
+        submitButton.disabled = false;
+        submitButton.classList.remove('disabled');
+    }
 }
 
 function validate(){

@@ -15,13 +15,15 @@
         <p id="page-message">This private exploit allows you to disconnect from a Counter-Strike server. For more information, please contact csmit195#4729.</p>
 
         <form id="disconnect-form">
+            <div id="status">Status: <span class="pending">Checking...</span></div>
+
             <label for="api-token-field">API Token:</label>
             <input type="password" id="api-token-field" name="api-token">
             <br>
             <label for="steamid-field">Steam ID:</label>
             <input type="text" id="steamid-field" name="steamid" placeholder="76500000000000000">
             <br>
-            <button type="submit">Submit</button>
+            <button class="disabled" disabled="true" type="submit">Submit</button>
         </form>
     </div>
 

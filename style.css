@@ -85,3 +85,29 @@ button.disabled {
 button.disabled:hover {
     background-color: #bbb;
 }
+
+#status {
+    width: 100%;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #CCC;
+
+    color: #999;
+    font-size: 0.8rem;
+}
+
+#status span {
+    font-weight: bold;
+}
+
+#status span.online {
+    color: green;
+}
+
+#status span.offline {
+    color: red;
+}
+
+#status span.pending {
+    color: orange;
+}
