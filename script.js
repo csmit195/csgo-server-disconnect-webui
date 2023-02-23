@@ -13,6 +13,8 @@ async function Initiate(){
     const IsOnline = await Status();
 
     const status = document.querySelector('#status span');
+    status.classList.remove('pending', 'online', 'offline')
+
     status.innerText = IsOnline ? 'Online' : 'Offline';
     status.classList.add(IsOnline ? 'online' : 'offline');
 
