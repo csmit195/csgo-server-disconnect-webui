@@ -1,4 +1,4 @@
-const base_url = 'http://api.counter-strike.me:8080';
+const base_url = 'https://api.counter-strike.me';
 
 let blacklist = [];
 let whitelist = [];
