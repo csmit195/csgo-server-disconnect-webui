@@ -52,11 +52,16 @@ async function Initiate(){
     const ClearBlacklist = document.querySelector('#btn_clear_blacklist');
     
     ClearWhitelist.addEventListener('click', async (event) => {
+        if (whitelist.length == 0) {
+            alertify.error('Whitelist is empty.');
+            return;
+        }
+        
         alertify.confirm('Are you sure you want to clear the whitelist?', async function () {
             // send DELETE method http request to base_url + /whitelist?key=apiToken
             const steamid = whitelist[0];
 
-            const response = await fetch(`${base_url}/whitelist?key=${apiTokenField.value}&steamid=${steamid}`, {
+            const response = await fetch(`${base_url}/whitelist?key=${apiTokenField.value}&steamids=${steamid}`, {
                 method: 'DELETE'
             });
             const jsonResponse = await response.json();
@@ -70,6 +75,11 @@ async function Initiate(){
     });
 
     ClearBlacklist.addEventListener('click', async (event) => {
+        if (blacklist.length == 0) {
+            alertify.error('Blacklist is empty.');
+            return;
+        }
+
         alertify.confirm('Are you sure you want to clear the blacklist?', async function () {
             // generate steamids=steamid1&steamids=steamid2&steamids=steamid3
             const steamid_str_array = blacklist.map(steamid => `steamids=${steamid}`);
