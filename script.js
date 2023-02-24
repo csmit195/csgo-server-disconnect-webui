@@ -133,7 +133,7 @@ function validate(){
         return false;
     }
 
-    if ( apiToken.length != 29 ) {
+    if ( apiToken.length != 32 ) {
         alertify.error("API Token is invalid.");
         return false;
     }
