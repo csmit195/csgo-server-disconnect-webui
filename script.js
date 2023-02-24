@@ -59,9 +59,10 @@ async function Initiate(){
 
         alertify.confirm('Are you sure you want to clear the whitelist?', async function () {
             // send DELETE method http request to base_url + /whitelist?key=apiToken
-            const steamid = whitelist[0];
+            const steamid_str_array = whitelist.map(steamid => `steamids=${steamid}`);
+            const steamid_str = steamid_str_array.join('&');
 
-            const response = await fetch(`${base_url}/whitelist?key=${apiTokenField.value}&steamids=${steamid}`, {
+            const response = await fetch(`${base_url}/whitelist?key=${apiTokenField.value}&${steamid_str}`, {
                 method: 'DELETE'
             });
             const jsonResponse = await response.json();
