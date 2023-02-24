@@ -118,6 +118,7 @@ async function Initiate(){
         console.log(jsonResponse);
 
         if (jsonResponse.success) {
+            whitelist.push(steamid);
             alertify.success('Whitelist added.');
         } else {
             alertify.error(`Error: ${jsonResponse.error}`);
@@ -144,6 +145,7 @@ async function Initiate(){
         console.log(jsonResponse);
 
         if (jsonResponse.success) {
+            blacklist.push(steamid);
             alertify.success('Blacklist added.');
         } else {
             alertify.error(`Error: ${jsonResponse.error}`);
