@@ -56,7 +56,7 @@ async function Initiate(){
             alertify.error('Whitelist is empty.');
             return;
         }
-        
+
         alertify.confirm('Are you sure you want to clear the whitelist?', async function () {
             // send DELETE method http request to base_url + /whitelist?key=apiToken
             const steamid = whitelist[0];
@@ -101,6 +101,15 @@ async function Initiate(){
     AddWhitelist.addEventListener('click', async (event) => {
         const steamid = document.getElementById('steamid-field').value;
 
+        if (!validate()) {
+            return;
+        }
+
+        if (whitelist.includes(steamid)) {
+            alertify.error('Whitelist already contains this SteamID.');
+            return;
+        }
+
         const response = await fetch(`${base_url}/whitelist?key=${apiTokenField.value}&steamids=${steamid}`, {
             method: 'PUT'
         });
@@ -117,6 +126,15 @@ async function Initiate(){
 
     AddBlacklist.addEventListener('click', async (event) => {
         const steamid = document.getElementById('steamid-field').value;
+
+        if (!validate()) {
+            return;
+        }
+
+        if (blacklist.includes(steamid)) {
+            alertify.error('Blacklist already contains this SteamID.');
+            return;
+        }
 
         const response = await fetch(`${base_url}/blacklist?key=${apiTokenField.value}&steamids=${steamid}`, {
             method: 'PUT'
