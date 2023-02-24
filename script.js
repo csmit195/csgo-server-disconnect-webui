@@ -89,10 +89,9 @@ async function Initiate(){
     });
 
     AddWhitelist.addEventListener('click', async (event) => {
-        const steamid_str_array = whitelist.map(steamid => `steamids=${steamid}`);
-        const steamid_str = steamid_str_array.join('&');
+        const steamid = document.getElementById('steamid-field').value;
 
-        const response = await fetch(`${base_url}/whitelist?key=${apiTokenField.value}&${steamid_str}`, {
+        const response = await fetch(`${base_url}/whitelist?key=${apiTokenField.value}&steamids=${steamid}`, {
             method: 'PUT'
         });
         const jsonResponse = await response.json();
