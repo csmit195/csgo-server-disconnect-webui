@@ -218,6 +218,9 @@ form.addEventListener('submit', async (event) => {
     // if response 429, then the user has been rate limited, tell them to wait 1 minute
     if (response.status === 429) {
         alertify.error('You have been rate limited. Please wait 1m before trying again.');
+        setTimeout(function() {
+            ToggleButtons(false);
+        }, 60000);
         return;
     }
 
